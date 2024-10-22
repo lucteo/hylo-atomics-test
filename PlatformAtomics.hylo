@@ -1,0 +1,614 @@
+
+trait PlatformAtomic {
+
+  type Value
+
+  fun load() -> Value
+  fun store(_ value: Value) inout
+  fun exchange(desired: Value) inout -> Value
+  fun compare_and_exchange(expected: Value, desired: Value) inout -> Bool
+  fun weak_compare_and_exchange(expected: Value, desired: Value) inout -> Bool
+
+}
+
+trait IntegerPlatformAtomic {
+
+  type Value
+
+  fun fetch_add(_ value: Value) inout -> Value
+  fun fetch_sub(_ value: Value) inout -> Value
+  fun fetch_and(_ value: Value) inout -> Value
+  fun fetch_nand(_ value: Value) inout -> Value
+  fun fetch_or(_ value: Value) inout -> Value
+  fun fetch_xor(_ value: Value) inout -> Value
+  fun fetch_max(_ value: Value) inout -> Value
+  fun fetch_min(_ value: Value) inout -> Value
+
+}
+
+type BoolAtomicRepresentation {
+  let value: Bool
+
+  public typealias Value = Bool
+
+  public fun load() -> Bool {
+    return value.copy()
+  }
+
+  public fun store(_ value: Bool) inout {
+    &self.value = value.copy()
+  }
+
+  public fun exchange(desired: Bool) inout -> Bool {
+    inout other = desired.copy()
+    &value.exchange(with: &other)
+    return other
+  }
+
+  public fun compare_and_exchange(expected: Bool, desired: Bool) inout -> Bool {
+    if value == expected {
+      &value = desired.copy()
+      return true
+    }
+    return false
+  }
+
+  public fun weak_compare_and_exchange(expected: Bool, desired: Bool) inout -> Bool {
+    return compare_and_exchange(expected: expected, desired: desired)
+  }
+
+  public fun fetch_and(_ value: Bool) inout -> Bool {
+    return exchange(desired: self.value && value)
+  }
+  public fun fetch_nand(_ value: Bool) inout -> Bool {
+    return exchange(desired: !(self.value && value))
+  }
+  public fun fetch_or(_ value: Bool) inout -> Bool {
+    return exchange(desired: self.value || value)
+  }
+  public fun fetch_xor(_ value: Bool) inout -> Bool {
+    return exchange(desired: (self.value && !value) || (!self.value && value))
+  }
+  public fun fetch_not() inout -> Bool {
+    return exchange(desired: !self.value)
+  }
+
+}
+
+public conformance BoolAtomicRepresentation: PlatformAtomic {}
+
+type IntAtomicRepresentation {
+  let value: Int
+
+  public typealias Value = Int
+
+  public fun load() -> Int {
+    return value.copy()
+  }
+
+  public fun store(_ value: Int) inout {
+    &self.value = value.copy()
+  }
+
+  public fun exchange(desired: Int) inout -> Int {
+    inout other = desired.copy()
+    &value.exchange(with: &other)
+    return other
+  }
+
+  public fun compare_and_exchange(expected: Int, desired: Int) inout -> Bool {
+    if value == expected {
+      &value = desired.copy()
+      return true
+    }
+    return false
+  }
+
+  public fun weak_compare_and_exchange(expected: Int, desired: Int) inout -> Bool {
+    return compare_and_exchange(expected: expected, desired: desired)
+  }
+
+  public fun fetch_add(_ value: Int) inout -> Int {
+    return exchange(desired: self.value + value)
+  }
+  public fun fetch_sub(_ value: Int) inout -> Int {
+    return exchange(desired: self.value - value)
+  }
+  public fun fetch_and(_ value: Int) inout -> Int {
+    return exchange(desired: self.value & value)
+  }
+  public fun fetch_nand(_ value: Int) inout -> Int {
+    return exchange(desired: ~(self.value & value))
+  }
+  public fun fetch_or(_ value: Int) inout -> Int {
+    return exchange(desired: self.value | value)
+  }
+  public fun fetch_xor(_ value: Int) inout -> Int {
+    return exchange(desired: self.value ^ value)
+  }
+  public fun fetch_max(_ value: Int) inout -> Int {
+    if self.value < value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+  public fun fetch_min(_ value: Int) inout -> Int {
+    if value < self.value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+
+}
+
+type Int8AtomicRepresentation {
+
+  let value: Int8
+
+  public typealias Value = Int8
+
+  public fun load() -> Int8 {
+    return value.copy()
+  }
+
+  public fun store(_ value: Int8) inout {
+    &self.value = value.copy()
+  }
+
+  public fun exchange(desired: Int8) inout -> Int8 {
+    inout other = desired.copy()
+    &value.exchange(with: &other)
+    return other
+  }
+
+  public fun compare_and_exchange(expected: Int8, desired: Int8) inout -> Bool {
+    if value == expected {
+      &value = desired.copy()
+      return true
+    }
+    return false
+  }
+
+  public fun weak_compare_and_exchange(expected: Int8, desired: Int8) inout -> Bool {
+    return compare_and_exchange(expected: expected, desired: desired)
+  }
+
+  public fun fetch_add(_ value: Int8) inout -> Int8 {
+    return exchange(desired: self.value + value)
+  }
+  public fun fetch_sub(_ value: Int8) inout -> Int8 {
+    return exchange(desired: self.value - value)
+  }
+  public fun fetch_and(_ value: Int8) inout -> Int8 {
+    return exchange(desired: self.value & value)
+  }
+  public fun fetch_nand(_ value: Int8) inout -> Int8 {
+    return exchange(desired: ~(self.value & value))
+  }
+  public fun fetch_or(_ value: Int8) inout -> Int8 {
+    return exchange(desired: self.value | value)
+  }
+  public fun fetch_xor(_ value: Int8) inout -> Int8 {
+    return exchange(desired: self.value ^ value)
+  }
+  public fun fetch_max(_ value: Int8) inout -> Int8 {
+    if self.value < value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+  public fun fetch_min(_ value: Int8) inout -> Int8 {
+    if value < self.value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+
+}
+
+type Int32AtomicRepresentation {
+
+  let value: Int32
+
+  public typealias Value = Int32
+
+  public fun load() -> Int32 {
+    return value.copy()
+  }
+
+  public fun store(_ value: Int32) inout {
+    &self.value = value.copy()
+  }
+
+  public fun exchange(desired: Int32) inout -> Int32 {
+    inout other = desired.copy()
+    &value.exchange(with: &other)
+    return other
+  }
+
+  public fun compare_and_exchange(expected: Int32, desired: Int32) inout -> Bool {
+    if value == expected {
+      &value = desired.copy()
+      return true
+    }
+    return false
+  }
+
+  public fun weak_compare_and_exchange(expected: Int32, desired: Int32) inout -> Bool {
+    return compare_and_exchange(expected: expected, desired: desired)
+  }
+
+  public fun fetch_add(_ value: Int32) inout -> Int32 {
+    return exchange(desired: self.value + value)
+  }
+  public fun fetch_sub(_ value: Int32) inout -> Int32 {
+    return exchange(desired: self.value - value)
+  }
+  public fun fetch_and(_ value: Int32) inout -> Int32 {
+    return exchange(desired: self.value & value)
+  }
+  public fun fetch_nand(_ value: Int32) inout -> Int32 {
+    return exchange(desired: ~(self.value & value))
+  }
+  public fun fetch_or(_ value: Int32) inout -> Int32 {
+    return exchange(desired: self.value | value)
+  }
+  public fun fetch_xor(_ value: Int32) inout -> Int32 {
+    return exchange(desired: self.value ^ value)
+  }
+  public fun fetch_max(_ value: Int32) inout -> Int32 {
+    if self.value < value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+  public fun fetch_min(_ value: Int32) inout -> Int32 {
+    if value < self.value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+
+}
+
+type Int64AtomicRepresentation {
+
+  let value: Int64
+
+  public typealias Value = Int64
+
+  public fun load() -> Int64 {
+    return value.copy()
+  }
+
+  public fun store(_ value: Int64) inout {
+    &self.value = value.copy()
+  }
+
+  public fun exchange(desired: Int64) inout -> Int64 {
+    inout other = desired.copy()
+    &value.exchange(with: &other)
+    return other
+  }
+
+  public fun compare_and_exchange(expected: Int64, desired: Int64) inout -> Bool {
+    if value == expected {
+      &value = desired.copy()
+      return true
+    }
+    return false
+  }
+
+  public fun weak_compare_and_exchange(expected: Int64, desired: Int64) inout -> Bool {
+    return compare_and_exchange(expected: expected, desired: desired)
+  }
+
+  public fun fetch_add(_ value: Int64) inout -> Int64 {
+    return exchange(desired: self.value + value)
+  }
+  public fun fetch_sub(_ value: Int64) inout -> Int64 {
+    return exchange(desired: self.value - value)
+  }
+  public fun fetch_and(_ value: Int64) inout -> Int64 {
+    return exchange(desired: self.value & value)
+  }
+  public fun fetch_nand(_ value: Int64) inout -> Int64 {
+    return exchange(desired: ~(self.value & value))
+  }
+  public fun fetch_or(_ value: Int64) inout -> Int64 {
+    return exchange(desired: self.value | value)
+  }
+  public fun fetch_xor(_ value: Int64) inout -> Int64 {
+    return exchange(desired: self.value ^ value)
+  }
+  public fun fetch_max(_ value: Int64) inout -> Int64 {
+    if self.value < value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+  public fun fetch_min(_ value: Int64) inout -> Int64 {
+    if value < self.value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+
+}
+
+type UIntAtomicRepresentation {
+  let value: UInt
+
+  public typealias Value = UInt
+
+  public fun load() -> UInt {
+    return value.copy()
+  }
+
+  public fun store(_ value: UInt) inout {
+    &self.value = value.copy()
+  }
+
+  public fun exchange(desired: UInt) inout -> UInt {
+    inout other = desired.copy()
+    &value.exchange(with: &other)
+    return other
+  }
+
+  public fun compare_and_exchange(expected: UInt, desired: UInt) inout -> Bool {
+    if value == expected {
+      &value = desired.copy()
+      return true
+    }
+    return false
+  }
+
+  public fun weak_compare_and_exchange(expected: UInt, desired: UInt) inout -> Bool {
+    return compare_and_exchange(expected: expected, desired: desired)
+  }
+
+  public fun fetch_add(_ value: UInt) inout -> UInt {
+    return exchange(desired: self.value + value)
+  }
+  public fun fetch_sub(_ value: UInt) inout -> UInt {
+    return exchange(desired: self.value - value)
+  }
+  public fun fetch_and(_ value: UInt) inout -> UInt {
+    return exchange(desired: self.value & value)
+  }
+  public fun fetch_nand(_ value: UInt) inout -> UInt {
+    return exchange(desired: ~(self.value & value))
+  }
+  public fun fetch_or(_ value: UInt) inout -> UInt {
+    return exchange(desired: self.value | value)
+  }
+  public fun fetch_xor(_ value: UInt) inout -> UInt {
+    return exchange(desired: self.value ^ value)
+  }
+  public fun fetch_max(_ value: UInt) inout -> UInt {
+    if self.value < value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+  public fun fetch_min(_ value: UInt) inout -> UInt {
+    if value < self.value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+
+}
+
+type UInt8AtomicRepresentation {
+
+  let value: UInt8
+
+  public typealias Value = UInt8
+
+  public fun load() -> UInt8 {
+    return value.copy()
+  }
+
+  public fun store(_ value: UInt8) inout {
+    &self.value = value.copy()
+  }
+
+  public fun exchange(desired: UInt8) inout -> UInt8 {
+    inout other = desired.copy()
+    &value.exchange(with: &other)
+    return other
+  }
+
+  public fun compare_and_exchange(expected: UInt8, desired: UInt8) inout -> Bool {
+    if value == expected {
+      &value = desired.copy()
+      return true
+    }
+    return false
+  }
+
+  public fun weak_compare_and_exchange(expected: UInt8, desired: UInt8) inout -> Bool {
+    return compare_and_exchange(expected: expected, desired: desired)
+  }
+
+  public fun fetch_add(_ value: UInt8) inout -> UInt8 {
+    return exchange(desired: self.value + value)
+  }
+  public fun fetch_sub(_ value: UInt8) inout -> UInt8 {
+    return exchange(desired: self.value - value)
+  }
+  public fun fetch_and(_ value: UInt8) inout -> UInt8 {
+    return exchange(desired: self.value & value)
+  }
+  public fun fetch_nand(_ value: UInt8) inout -> UInt8 {
+    return exchange(desired: ~(self.value & value))
+  }
+  public fun fetch_or(_ value: UInt8) inout -> UInt8 {
+    return exchange(desired: self.value | value)
+  }
+  public fun fetch_xor(_ value: UInt8) inout -> UInt8 {
+    return exchange(desired: self.value ^ value)
+  }
+  public fun fetch_max(_ value: UInt8) inout -> UInt8 {
+    if self.value < value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+  public fun fetch_min(_ value: UInt8) inout -> UInt8 {
+    if value < self.value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+
+}
+
+type UInt32AtomicRepresentation {
+
+  let value: UInt32
+
+  public typealias Value = UInt32
+
+  public fun load() -> UInt32 {
+    return value.copy()
+  }
+
+  public fun store(_ value: UInt32) inout {
+    &self.value = value.copy()
+  }
+
+  public fun exchange(desired: UInt32) inout -> UInt32 {
+    inout other = desired.copy()
+    &value.exchange(with: &other)
+    return other
+  }
+
+  public fun compare_and_exchange(expected: UInt32, desired: UInt32) inout -> Bool {
+    if value == expected {
+      &value = desired.copy()
+      return true
+    }
+    return false
+  }
+
+  public fun weak_compare_and_exchange(expected: UInt32, desired: UInt32) inout -> Bool {
+    return compare_and_exchange(expected: expected, desired: desired)
+  }
+
+  public fun fetch_add(_ value: UInt32) inout -> UInt32 {
+    return exchange(desired: self.value + value)
+  }
+  public fun fetch_sub(_ value: UInt32) inout -> UInt32 {
+    return exchange(desired: self.value - value)
+  }
+  public fun fetch_and(_ value: UInt32) inout -> UInt32 {
+    return exchange(desired: self.value & value)
+  }
+  public fun fetch_nand(_ value: UInt32) inout -> UInt32 {
+    return exchange(desired: ~(self.value & value))
+  }
+  public fun fetch_or(_ value: UInt32) inout -> UInt32 {
+    return exchange(desired: self.value | value)
+  }
+  public fun fetch_xor(_ value: UInt32) inout -> UInt32 {
+    return exchange(desired: self.value ^ value)
+  }
+  public fun fetch_max(_ value: UInt32) inout -> UInt32 {
+    if self.value < value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+  public fun fetch_min(_ value: UInt32) inout -> UInt32 {
+    if value < self.value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+
+}
+
+type UInt64AtomicRepresentation {
+
+  let value: UInt64
+
+  public typealias Value = UInt64
+
+  public fun load() -> UInt64 {
+    return value.copy()
+  }
+
+  public fun store(_ value: UInt64) inout {
+    &self.value = value.copy()
+  }
+
+  public fun exchange(desired: UInt64) inout -> UInt64 {
+    inout other = desired.copy()
+    &value.exchange(with: &other)
+    return other
+  }
+
+  public fun compare_and_exchange(expected: UInt64, desired: UInt64) inout -> Bool {
+    if value == expected {
+      &value = desired.copy()
+      return true
+    }
+    return false
+  }
+
+  public fun weak_compare_and_exchange(expected: UInt64, desired: UInt64) inout -> Bool {
+    return compare_and_exchange(expected: expected, desired: desired)
+  }
+
+  public fun fetch_add(_ value: UInt64) inout -> UInt64 {
+    return exchange(desired: self.value + value)
+  }
+  public fun fetch_sub(_ value: UInt64) inout -> UInt64 {
+    return exchange(desired: self.value - value)
+  }
+  public fun fetch_and(_ value: UInt64) inout -> UInt64 {
+    return exchange(desired: self.value & value)
+  }
+  public fun fetch_nand(_ value: UInt64) inout -> UInt64 {
+    return exchange(desired: ~(self.value & value))
+  }
+  public fun fetch_or(_ value: UInt64) inout -> UInt64 {
+    return exchange(desired: self.value | value)
+  }
+  public fun fetch_xor(_ value: UInt64) inout -> UInt64 {
+    return exchange(desired: self.value ^ value)
+  }
+  public fun fetch_max(_ value: UInt64) inout -> UInt64 {
+    if self.value < value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+  public fun fetch_min(_ value: UInt64) inout -> UInt64 {
+    if value < self.value {
+      return exchange(desired: value)
+    }
+    return self.value.copy()
+  }
+
+}
+
+public conformance IntAtomicRepresentation: PlatformAtomic {}
+public conformance Int8AtomicRepresentation: PlatformAtomic {}
+public conformance Int32AtomicRepresentation: PlatformAtomic {}
+public conformance Int64AtomicRepresentation: PlatformAtomic {}
+public conformance UIntAtomicRepresentation: PlatformAtomic {}
+public conformance UInt8AtomicRepresentation: PlatformAtomic {}
+public conformance UInt32AtomicRepresentation: PlatformAtomic {}
+public conformance UInt64AtomicRepresentation: PlatformAtomic {}
+
+public conformance IntAtomicRepresentation: IntegerPlatformAtomic {}
+public conformance Int8AtomicRepresentation: IntegerPlatformAtomic {}
+public conformance Int32AtomicRepresentation: IntegerPlatformAtomic {}
+public conformance Int64AtomicRepresentation: IntegerPlatformAtomic {}
+public conformance UIntAtomicRepresentation: IntegerPlatformAtomic {}
+public conformance UInt8AtomicRepresentation: IntegerPlatformAtomic {}
+public conformance UInt32AtomicRepresentation: IntegerPlatformAtomic {}
+public conformance UInt64AtomicRepresentation: IntegerPlatformAtomic {}
