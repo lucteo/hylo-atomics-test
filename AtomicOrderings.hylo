@@ -1,0 +1,50 @@
+public type AtomicLoadOrdering {
+
+  memberwise init
+
+  let value: Int
+
+}
+
+public extension AtomicLoadOrdering {
+
+  public static let relaxed: AtomicLoadOrdering = .new(value: 0)
+  public static let acquiring: AtomicLoadOrdering = .new(value: 1)
+  public static let sequentially_consistent: AtomicLoadOrdering = .new(value: 4)
+
+}
+
+public type AtomicStoreOrdering {
+
+  memberwise init
+
+  let value: Int
+
+}
+
+public extension AtomicStoreOrdering {
+
+  public static let relaxed: AtomicStoreOrdering = .new(value: 0)
+  public static let releasing: AtomicStoreOrdering = .new(value: 2)
+  public static let sequentially_consistent: AtomicStoreOrdering = .new(value: 4)
+
+}
+
+public type AtomicUpdateOrdering {
+
+  memberwise init
+
+  let value: Int
+
+}
+
+public extension AtomicUpdateOrdering {
+
+  public static let relaxed: AtomicUpdateOrdering = .new(value: 0)
+  public static let acquiring: AtomicUpdateOrdering = .new(value: 1)
+  public static let releasing: AtomicUpdateOrdering = .new(value: 2)
+  public static let acquiring_and_releasing: AtomicUpdateOrdering = .new(value: 3)
+  public static let sequentially_consistent: AtomicUpdateOrdering = .new(value: 4)
+
+}
+
