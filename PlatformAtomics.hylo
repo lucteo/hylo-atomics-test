@@ -94,7 +94,7 @@ type BoolAtomicRepresentation {
 ///////////////////////////////////////////////////////////////////////////////
 // MARK: integer types
 
-type IntAtomicRepresentation {
+type IntAtomicRepresentation: Regular {
   internal let value: Int
 
   public memberwise init
@@ -168,7 +168,7 @@ type IntAtomicRepresentation {
 
 }
 
-type Int8AtomicRepresentation {
+type Int8AtomicRepresentation: Regular {
 
   internal let value: Int8
 
@@ -243,7 +243,7 @@ type Int8AtomicRepresentation {
 
 }
 
-type Int32AtomicRepresentation {
+type Int32AtomicRepresentation: Regular {
 
   internal let value: Int32
 
@@ -318,7 +318,7 @@ type Int32AtomicRepresentation {
 
 }
 
-type Int64AtomicRepresentation {
+type Int64AtomicRepresentation: Regular {
 
   internal let value: Int64
 
@@ -393,7 +393,7 @@ type Int64AtomicRepresentation {
 
 }
 
-type UIntAtomicRepresentation {
+type UIntAtomicRepresentation: Regular {
   internal let value: UInt
 
   public memberwise init
@@ -467,7 +467,7 @@ type UIntAtomicRepresentation {
 
 }
 
-type UInt8AtomicRepresentation {
+type UInt8AtomicRepresentation: Regular {
 
   internal let value: UInt8
 
@@ -542,7 +542,7 @@ type UInt8AtomicRepresentation {
 
 }
 
-type UInt32AtomicRepresentation {
+type UInt32AtomicRepresentation: Regular {
 
   internal let value: UInt32
 
@@ -617,7 +617,7 @@ type UInt32AtomicRepresentation {
 
 }
 
-type UInt64AtomicRepresentation {
+type UInt64AtomicRepresentation: Regular {
 
   internal let value: UInt64
 
@@ -696,7 +696,7 @@ type UInt64AtomicRepresentation {
 ///////////////////////////////////////////////////////////////////////////////
 // MARK: pointer type
 
-type MemoryAddressAtomicRepresentation {
+type MemoryAddressAtomicRepresentation: Regular {
   internal let value: MemoryAddress
 
   public memberwise init
