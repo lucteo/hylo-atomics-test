@@ -1,0 +1,8 @@
+
+public fun spin_loop_hint() {
+  // TODO
+  // _mm_pause(), on x86, x86_64
+  // pause() on riscv32, riscv64
+  // __isb(SY) on aarch64, arm64ec
+  // __yield() on armv6
+}

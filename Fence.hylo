@@ -1,0 +1,4 @@
+
+public fun fence(_ordering: AtomicUpdateOrdering) {
+  // TODO: https://llvm.org/docs/LangRef.html#fence-instruction
+}
