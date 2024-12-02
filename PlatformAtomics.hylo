@@ -32,7 +32,9 @@ trait IntegerPlatformAtomic {
 // MARK: BoolAtomicRepresentation
 
 type BoolAtomicRepresentation {
-  let value: Bool
+  internal let value: Bool
+
+  public memberwise init
 
   public typealias Value = Bool
 
@@ -93,7 +95,9 @@ type BoolAtomicRepresentation {
 // MARK: integer types
 
 type IntAtomicRepresentation {
-  let value: Int
+  internal let value: Int
+
+  public memberwise init
 
   public typealias Value = Int
 
@@ -166,7 +170,9 @@ type IntAtomicRepresentation {
 
 type Int8AtomicRepresentation {
 
-  let value: Int8
+  internal let value: Int8
+
+  public memberwise init
 
   public typealias Value = Int8
 
@@ -239,7 +245,9 @@ type Int8AtomicRepresentation {
 
 type Int32AtomicRepresentation {
 
-  let value: Int32
+  internal let value: Int32
+
+  public memberwise init
 
   public typealias Value = Int32
 
@@ -312,7 +320,9 @@ type Int32AtomicRepresentation {
 
 type Int64AtomicRepresentation {
 
-  let value: Int64
+  internal let value: Int64
+
+  public memberwise init
 
   public typealias Value = Int64
 
@@ -384,7 +394,9 @@ type Int64AtomicRepresentation {
 }
 
 type UIntAtomicRepresentation {
-  let value: UInt
+  internal let value: UInt
+
+  public memberwise init
 
   public typealias Value = UInt
 
@@ -457,7 +469,9 @@ type UIntAtomicRepresentation {
 
 type UInt8AtomicRepresentation {
 
-  let value: UInt8
+  internal let value: UInt8
+
+  public memberwise init
 
   public typealias Value = UInt8
 
@@ -530,7 +544,9 @@ type UInt8AtomicRepresentation {
 
 type UInt32AtomicRepresentation {
 
-  let value: UInt32
+  internal let value: UInt32
+
+  public memberwise init
 
   public typealias Value = UInt32
 
@@ -603,7 +619,9 @@ type UInt32AtomicRepresentation {
 
 type UInt64AtomicRepresentation {
 
-  let value: UInt64
+  internal let value: UInt64
+
+  public memberwise init
 
   public typealias Value = UInt64
 
@@ -679,7 +697,9 @@ type UInt64AtomicRepresentation {
 // MARK: pointer type
 
 type MemoryAddressAtomicRepresentation {
-  let value: MemoryAddress
+  internal let value: MemoryAddress
+
+  public memberwise init
 
   public typealias Value = MemoryAddress
 
